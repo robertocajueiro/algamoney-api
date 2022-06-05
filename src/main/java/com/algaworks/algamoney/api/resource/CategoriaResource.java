@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,16 +43,23 @@ public class CategoriaResource {
 		return ResponseEntity.created(uri).body(categoriaSalva);
 	}
 	
-	@GetMapping("/{codigo}")
-	public ResponseEntity<?> buscarPeloCodigo(@PathVariable("codigo") Long codigo) {
-		Optional<Categoria> categoria = categoriaRepository.findById(codigo); {
-			
-			if(!categoria.isPresent()) {
-				return ResponseEntity.notFound().build();
-			}
-		}
-		
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
+//	@GetMapping("/{codigo}")
+//	public ResponseEntity<?> buscarPeloCodigo(@PathVariable("codigo") Long codigo) {
+//		Optional<Categoria> categoria = categoriaRepository.findById(codigo); {
+//			
+//			if(!categoria.isPresent()) {
+//				return ResponseEntity.notFound().build();
+//			}
+//		}
+//		
+//		return ResponseEntity.status(HttpStatus.OK).build();
+//	}
+	
+	   @GetMapping("/{codigo}")
+	    public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
+	        Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+
+	        return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
+	    }
 
 }
