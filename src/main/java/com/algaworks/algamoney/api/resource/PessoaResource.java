@@ -32,13 +32,13 @@ public class PessoaResource {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
+	@Autowired
+	private PessoaService pessoaService;
+
 	@GetMapping
 	public List<Pessoa> listar(){
 		return pessoaRepository.findAll();
 	}
-	
-	@Autowired
-	private PessoaService pessoaService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;

@@ -15,9 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "lancamento")
-public class lancamento {
+public class Lancamento {
 	
 	
 	@Id
@@ -26,9 +28,11 @@ public class lancamento {
 	private String descricao;
 	
 	@Column(name = "data_vencimento")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataVencimento;
 	
 	@Column(name = "data_pagamento")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataPagamento;
 	
 	private BigDecimal valor;
@@ -131,7 +135,7 @@ public class lancamento {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		lancamento other = (lancamento) obj;
+		Lancamento other = (Lancamento) obj;
 		return Objects.equals(codigo, other.codigo);
 	}
 	
