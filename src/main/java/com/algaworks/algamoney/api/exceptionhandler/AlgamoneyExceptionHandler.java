@@ -1,12 +1,9 @@
 package com.algaworks.algamoney.api.exceptionhandler;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
