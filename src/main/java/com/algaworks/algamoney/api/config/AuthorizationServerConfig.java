@@ -23,30 +23,37 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
     	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-
-	    clients.inMemory()
-	            .withClient("angular")
-	            .secret("$2a$10$G1j5Rf8aEEiGc/AET9BA..xRR.qCpOUzBZoJd8ygbGy6tb3jsMT9G")
-	            .scopes("read", "write")
-	            .authorizedGrantTypes("password", "refresh_token")
-	            .accessTokenValiditySeconds(1800)
-	            .refreshTokenValiditySeconds(3600 * 24);
+		clients.inMemory()
+				.withClient("angular")
+				.secret("$2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG") // @ngul@r0
+				.scopes("read", "write")
+				.authorizedGrantTypes("password", "refresh_token")
+				.accessTokenValiditySeconds(1800)
+				.refreshTokenValiditySeconds(3600 * 24)
+			.and()
+				.withClient("mobile")
+				.secret(passwordEncoder.encode("m0b1le")) // Forma insegura
+				.scopes("read")
+				.authorizedGrantTypes("password", "refresh_token")
+				.accessTokenValiditySeconds(1800)
+				.refreshTokenValiditySeconds(3600 * 24);
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.authenticationManager(authenticationManager)
-			.accessTokenConverter(accessTokenConverter())
 			.userDetailsService(userDetailsService)
-			.tokenStore(tokenStore());
-		}
+			.accessTokenConverter(accessTokenConverter())
+			.tokenStore(tokenStore())
+			.reuseRefreshTokens(false);
+	}
 
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
@@ -61,6 +68,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
 	}
-
 
 }
