@@ -1,6 +1,5 @@
 package com.algaworks.algamoney.api.config;
 
-
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +85,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public TokenEnhancer tokenEnhancer() {
 		return new CustomTokenEnhancer();
 	}
+
 
 }

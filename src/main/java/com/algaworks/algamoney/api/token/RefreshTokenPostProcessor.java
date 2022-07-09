@@ -21,8 +21,8 @@ import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @SuppressWarnings("deprecation")
 @ControllerAdvice
-public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken>{
-	
+public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken> {
+
 	@Autowired
 	private AlgamoneyApiProperty algamoneyApiProperty;
 
@@ -36,19 +36,19 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 			MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
 			ServerHttpRequest request, ServerHttpResponse response) {
 		
-		HttpServletRequest req = ((ServletServerHttpRequest)request).getServletRequest();
+		HttpServletRequest req = ((ServletServerHttpRequest) request).getServletRequest();
 		HttpServletResponse resp = ((ServletServerHttpResponse) response).getServletResponse();
 		
-		DefaultOAuth2AccessToken token  = (DefaultOAuth2AccessToken)  body;
+		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) body;
 		
 		String refreshToken = body.getRefreshToken().getValue();
 		adicionarRefreshTokenNoCookie(refreshToken, req, resp);
-		removerRefreshtokenDoBody(token);
+		removerRefreshTokenDoBody(token);
 		
 		return body;
 	}
 
-	private void removerRefreshtokenDoBody(DefaultOAuth2AccessToken token) {
+	private void removerRefreshTokenDoBody(DefaultOAuth2AccessToken token) {
 		token.setRefreshToken(null);
 	}
 
@@ -60,5 +60,4 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 		refreshTokenCookie.setMaxAge(2592000);
 		resp.addCookie(refreshTokenCookie);
 	}
-
 }
