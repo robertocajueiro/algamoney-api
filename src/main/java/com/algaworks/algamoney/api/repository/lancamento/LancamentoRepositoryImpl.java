@@ -12,10 +12,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;	
 
 import com.algaworks.algamoney.api.dto.LancamentoEstatisticaCategoria;
 import com.algaworks.algamoney.api.model.Categoria_;
@@ -70,7 +70,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		
 		
 		TypedQuery<Lancamento> query = manager.createQuery(criteria);
-		adicionarRestricoesDePaginacoes(query, pageable);
+		adicionarRestricoesDePaginacao(query, pageable);
 		
 		return new PageImpl<>( query.getResultList(), pageable, total(lancamentoFilter));
 	}
@@ -92,7 +92,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		criteria.where(predicates);
 		
 		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
-		adicionarRestricoesDePaginacoes(query, pageable);
+		adicionarRestricoesDePaginacao(query, pageable);
 		
 		return new PageImpl<>( query.getResultList(), pageable, total(lancamentoFilter));
 	}
@@ -102,7 +102,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 			Root<Lancamento> root) {
 		List<Predicate> predicates = new ArrayList<>();
 		
-		if(!ObjectUtils.isEmpty(lancamentoFilter.getDescricao())) {
+		if(!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
 			predicates.add(builder.like(
 					builder.lower(root.get(Lancamento_.descricao)), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
 		}
@@ -120,7 +120,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 
-	private void adicionarRestricoesDePaginacoes(TypedQuery<?> query, Pageable pageable) {
+	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
 		int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
