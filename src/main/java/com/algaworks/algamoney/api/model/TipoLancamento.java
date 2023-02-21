@@ -3,9 +3,7 @@ package com.algaworks.algamoney.api.model;
 public enum TipoLancamento {
 	
 	RECEITA("Receita"),
-	DESPESA("Despesa")
-	
-	;
+	DESPESA("Despesa");
 	
 	private final String descricao;
 	
