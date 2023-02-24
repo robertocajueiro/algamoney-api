@@ -12,28 +12,25 @@ import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Configuration
 public class MailConfig {
-	
+
 	@Autowired
 	private AlgamoneyApiProperty property;
-	
+
 	@Bean
 	public JavaMailSender javaMailSender() {
 		Properties props = new Properties();
-		
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", true);
-		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.starttls.enable", true);
 		props.put("mail.smtp.connectiontimeout", 10000);
-		
+
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setJavaMailProperties(props);
 		mailSender.setHost(property.getMail().getHost());
 		mailSender.setPort(property.getMail().getPort());
 		mailSender.setUsername(property.getMail().getUsername());
 		mailSender.setPassword(property.getMail().getPassword());
-		
-		return mailSender;
-		
-	}
 
+		return mailSender;
+	}
 }
